@@ -1,8 +1,8 @@
 import torch
 
 
-img_path = 'dataset/images'
-lbl_path = 'dataset/labels'
+img_path = 'dataset_pascal-voc/images'
+ann_path = 'dataset_pascal-voc/annotations'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 max_len = 300
