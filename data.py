@@ -6,6 +6,8 @@ from sklearn.model_selection import StratifiedGroupKFold
 import albumentations as A
 import torch
 from torch.utils.data import Dataset
+from torch.nn.utils.rnn import pad_sequence
+from functools import partial
 import cv2
 from config import CFG
 
@@ -169,3 +171,48 @@ class VOCDataset(Dataset):
 
     def __len__(self):
         return len(self.ids)
+
+
+# Collate function
+def collate_fn(batch, max_len, pad_idx):
+    image_batch, seq_batch = [], []
+    for image, seq in batch:
+        image_batch.append(image)
+        seq_batch.append(seq)
+
+    seq_batch = pad_sequence(
+        seq_batch, padding_value=pad_idx, batch_first=True)
+    if max_len:
+        pad = torch.ones(seq_batch.size(0), max_len -
+                         seq_batch.size(1)).fill_(pad_idx).long()
+        seq_batch = torch.cat([seq_batch, pad], dim=1)
+    image_batch = torch.stack(image_batch)
+    return image_batch, seq_batch
+
+
+def get_loaders(train_df, valid_df, tokenizer, img_size, batch_size, max_len, pad_idx, num_workers=2):
+    train_ds = VOCDataset(train_df, transforms=get_transform_train(
+        img_size), tokenizer=tokenizer)
+
+    trainloader = torch.utils.data.DataLoader(
+        train_ds,
+        batch_size=batch_size,
+        shuffle=True,
+        collate_fn=partial(collate_fn, max_len=max_len, pad_idx=pad_idx),
+        num_workers=num_workers,
+        pin_memory=True,
+    )
+
+    valid_ds = VOCDataset(valid_df, transforms=get_transform_valid(
+        img_size), tokenizer=tokenizer)
+
+    validloader = torch.utils.data.DataLoader(
+        valid_ds,
+        batch_size=batch_size,
+        shuffle=False,
+        collate_fn=partial(collate_fn, max_len=max_len, pad_idx=pad_idx),
+        num_workers=2,
+        pin_memory=True,
+    )
+
+    return trainloader, validloader
