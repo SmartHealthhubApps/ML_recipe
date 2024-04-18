@@ -2,9 +2,15 @@ import os
 import xml.etree.ElementTree as ET
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import StratifiedGroupKFold
+import albumentations as A
+import torch
+from torch.utils.data import Dataset
+import cv2
 from config import CFG
 
 
+# Parsing XML
 class XMLParser:
     def __init__(self, xml_file):
         self.xml_file = xml_file
@@ -81,6 +87,7 @@ def xml_files_to_df(xml_files):
     return df
 
 
+# Working with dataframe
 def build_df(xml_files):
     df = xml_files_to_df(xml_files)
 
@@ -91,3 +98,74 @@ def build_df(xml_files):
     df = df[['id', 'label', 'xmin', 'ymin', 'xmax', 'ymax', 'img_path']]
 
     return df, classes
+
+
+def split_df(df, n_folds=5, training_fold=0):
+    mapping = df.groupby("id")['img_path'].agg(len).to_dict()
+    df['stratify'] = df['id'].map(mapping)
+
+    kfold = StratifiedGroupKFold(
+        n_splits=n_folds, shuffle=True, random_state=42)
+
+    for i, (_, val_idx) in enumerate(kfold.split(df, y=df['stratify'], groups=df['id'])):
+        df.loc[val_idx, 'fold'] = i
+
+    train_df = df[df['fold'] != training_fold].reset_index(drop=True)
+    valid_df = df[df['fold'] == training_fold].reset_index(drop=True)
+
+    return train_df, valid_df
+
+
+# Working with dataset
+def get_transform_train(size):
+    return A.Compose([
+        A.HorizontalFlip(p=0.5),
+        A.RandomBrightnessContrast(p=0.2),
+        A.Resize(size, size),
+        A.Normalize(),
+    ], bbox_params={'format': 'pascal_voc', 'label_fields': ['labels']})
+
+
+def get_transform_valid(size):
+    return A.Compose([
+        A.Resize(size, size),
+        A.Normalize(),
+    ], bbox_params={'format': 'pascal_voc', 'label_fields': ['labels']})
+
+
+class VOCDataset(Dataset):
+    def __init__(self, df, transforms=None, tokenizer=None):
+        self.ids = df['id'].unique()
+        self.df = df
+        self.transforms = transforms
+        self.tokenizer = tokenizer
+
+    def __getitem__(self, idx):
+        sample = self.df[self.df['id'] == self.ids[idx]]
+        img_path = sample['img_path'].values[0]
+
+        img = cv2.imread(img_path)[..., ::-1]
+        labels = sample['label'].values
+        bboxes = sample[['xmin', 'ymin', 'xmax', 'ymax']].values
+
+        if self.transforms is not None:
+            transformed = self.transforms(**{
+                'image': img,
+                'bboxes': bboxes,
+                'labels': labels
+            })
+            img = transformed['image']
+            bboxes = transformed['bboxes']
+            labels = transformed['labels']
+
+        img = torch.FloatTensor(img).permute(2, 0, 1)
+
+        if self.tokenizer is not None:
+            seqs = self.tokenizer(labels, bboxes)
+            seqs = torch.LongTensor(seqs)
+            return img, seqs
+
+        return img, labels, bboxes
+
+    def __len__(self):
+        return len(self.ids)
