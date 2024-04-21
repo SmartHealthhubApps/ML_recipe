@@ -14,6 +14,7 @@ class CFG:
     max_len = 300
     img_size = 640
     num_bins = img_size
+    pad_idx = None  # Should be filled
 
     batch_size = 16
     epochs = 10
