@@ -7,12 +7,12 @@ class CFG:
     if torch.cuda.is_available():
         device = torch.device('cuda')
     elif torch.backends.mps.is_available():
-        device = torch.devcice('mps')
+        device = torch.device('mps')
     else:
         device = torch.device('cpu')
 
-    max_len = 300
-    img_size = 640
+    max_len = 1000
+    img_size = 384
     num_bins = img_size
     pad_idx = None  # Should be filled
 
@@ -25,3 +25,6 @@ class CFG:
     weight_decay = 1e-4
 
     generation_steps = 101
+
+
+print(f'Using device: {CFG.device}')
