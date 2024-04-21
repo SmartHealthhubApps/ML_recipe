@@ -79,10 +79,10 @@ def xml_files_to_df(xml_files):
     df[['xmin', 'ymin', 'xmax', 'ymax']] = np.stack([df['boxes'][i] for i in range(len(df['boxes']))])
 
     df.drop(columns=['boxes'], inplace=True)
-    df['xmin'] = df['xmin'].astype('float32')
-    df['ymin'] = df['ymin'].astype('float32')
-    df['xmax'] = df['xmax'].astype('float32')
-    df['ymax'] = df['ymax'].astype('float32')
+    df['xmin'] = df['xmin'].astype('float32') / 640
+    df['ymin'] = df['ymin'].astype('float32') / 640
+    df['xmax'] = df['xmax'].astype('float32') / 640
+    df['ymax'] = df['ymax'].astype('float32') / 640
 
     df['id'] = df['image_id'].map(lambda x: x.split(".jpg")[0])
 
@@ -125,14 +125,14 @@ def get_transform_train(size):
         A.RandomBrightnessContrast(p=0.2),
         A.Resize(size, size),
         A.Normalize(),
-    ], bbox_params={'format': 'pascal_voc', 'label_fields': ['labels']})
+    ], bbox_params=A.BboxParams(format='pascal_voc', label_fields=['labels']))
 
 
 def get_transform_valid(size):
     return A.Compose([
         A.Resize(size, size),
         A.Normalize(),
-    ], bbox_params={'format': 'pascal_voc', 'label_fields': ['labels']})
+    ], bbox_params=A.BboxParams(format='pascal_voc', label_fields=['labels']))
 
 
 class VOCDataset(Dataset):
@@ -191,8 +191,7 @@ def collate_fn(batch, max_len, pad_idx):
 
 
 def get_loaders(train_df, valid_df, tokenizer, img_size, batch_size, max_len, pad_idx, num_workers=2):
-    train_ds = VOCDataset(train_df, transforms=get_transform_train(
-        img_size), tokenizer=tokenizer)
+    train_ds = VOCDataset(train_df, transforms=get_transform_train(img_size), tokenizer=tokenizer)
 
     trainloader = torch.utils.data.DataLoader(
         train_ds,
@@ -203,8 +202,7 @@ def get_loaders(train_df, valid_df, tokenizer, img_size, batch_size, max_len, pa
         pin_memory=True,
     )
 
-    valid_ds = VOCDataset(valid_df, transforms=get_transform_valid(
-        img_size), tokenizer=tokenizer)
+    valid_ds = VOCDataset(valid_df, transforms=get_transform_valid(img_size), tokenizer=tokenizer)
 
     validloader = torch.utils.data.DataLoader(
         valid_ds,
