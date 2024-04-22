@@ -6,8 +6,8 @@ class CFG:
     ann_path = 'dataset_pascal-voc/annotations'
     if torch.cuda.is_available():
         device = torch.device('cuda')
-    elif torch.backends.mps.is_available():
-        device = torch.device('mps')
+    # elif torch.backends.mps.is_available():
+    #     device = torch.device('mps')
     else:
         device = torch.device('cpu')
 
@@ -20,7 +20,7 @@ class CFG:
     epochs = 10
 
     model_name = 'deit3_small_patch16_384_in21ft1k'
-    num_patches = 1600
+    num_patches = 576
     lr = 1e-4
     weight_decay = 1e-4
 
