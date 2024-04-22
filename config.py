@@ -11,12 +11,12 @@ class CFG:
     else:
         device = torch.device('cpu')
 
-    max_len = 1000
+    max_len = 3000
     img_size = 384
     num_bins = img_size
     pad_idx = None  # Should be filled
 
-    batch_size = 16
+    batch_size = 8
     epochs = 10
 
     model_name = 'deit3_small_patch16_384_in21ft1k'
