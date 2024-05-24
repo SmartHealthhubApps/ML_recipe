@@ -3,6 +3,7 @@ from transformers import top_k_top_p_filtering
 import albumentations as A
 import cv2
 import matplotlib.pyplot as plt
+from models import EncoderDecoder
 from config import CFG
 
 
@@ -29,6 +30,9 @@ def generate(model, x, tokenizer, max_len=50, top_k=0, top_p=1):
     return batch_preds.cpu(), confs
 
 
+model = EncoderDecoder(None, None)
+
+
 def postprocess(batch_preds, batch_confs, tokenizer):
     EOS_idxs = (batch_preds == tokenizer.EOS_code).float().argmax(dim=-1)
     invalid_idxs = ((EOS_idxs - 1) % 5 != 0).nonzero().view(-1)
@@ -51,6 +55,18 @@ def postprocess(batch_preds, batch_confs, tokenizer):
         all_confs.append(confs)
 
     return all_bboxes, all_labels, all_confs
+
+
+def detect(img_path):
+    result = model.encoder_decoder(img_path)
+
+    classes = result[0].boxes.cls.tolist()
+    classes = [int(num) for num in classes]
+
+    objects = [result[0].names[k] for k in classes if k in result[0].names]
+    objects = list(set(objects))
+
+    return objects
 
 
 class VOCDatasetTest(torch.utils.data.Dataset):
