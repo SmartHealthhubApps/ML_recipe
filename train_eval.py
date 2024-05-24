@@ -82,7 +82,7 @@ def train_eval(model,
 
         if valid_loss < best_loss:
             best_loss = valid_loss
-            torch.save(model.state_dict(), 'best_valid_loss.pth')
+            torch.save(model.state_dict(), 'local/best_valid_loss.pth')
             print("Best model was saved")
 
         if logger is not None:
