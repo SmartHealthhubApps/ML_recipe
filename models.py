@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import timm
 from timm.models.layers import trunc_normal_
+from ultralytics import YOLO
 from config import CFG
 from utils import create_mask
 
@@ -102,6 +103,7 @@ class EncoderDecoder(nn.Module):
         super().__init__()
         self.encoder = encoder
         self.decoder = decoder
+        self.encoder_decoder = YOLO('weights/best.pt')
 
     def forward(self, image, tgt):
         encoder_out = self.encoder(image)
