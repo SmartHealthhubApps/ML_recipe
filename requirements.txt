@@ -1,0 +1,14 @@
+torch
+torchvision
+torchaudio
+ultralytics
+numpy
+pandas
+scikit-learn
+albumentations
+functools
+opencv
+matplotlib
+transformers
+timm
+tqdm
