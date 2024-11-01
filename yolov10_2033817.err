@@ -1,0 +1,20 @@
+DeprecationWarning: 'source deactivate' is deprecated. Use 'conda deactivate'.
+Traceback (most recent call last):
+  File "/home/aamotyakin/yolo.py", line 36, in <module>
+    train()
+  File "/home/aamotyakin/yolo.py", line 26, in train
+    model.train(data=dataset_path,
+  File "/home/aamotyakin/.conda/envs/yolov8_new/lib/python3.12/site-packages/ultralytics/engine/model.py", line 644, in train
+    self.trainer = (trainer or self._smart_load("trainer"))(overrides=args, _callbacks=self.callbacks)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aamotyakin/.conda/envs/yolov8_new/lib/python3.12/site-packages/ultralytics/engine/trainer.py", line 102, in __init__
+    self.device = select_device(self.args.device, self.args.batch)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aamotyakin/.conda/envs/yolov8_new/lib/python3.12/site-packages/ultralytics/utils/torch_utils.py", line 137, in select_device
+    raise ValueError(
+ValueError: Invalid CUDA 'device=0,1,2,3,4,5,6,7' requested. Use 'device=cpu' or pass valid CUDA device(s) if available, i.e. 'device=0' or 'device=0,1,2,3' for Multi-GPU.
+
+torch.cuda.is_available(): True
+torch.cuda.device_count(): 4
+os.environ['CUDA_VISIBLE_DEVICES']: 0,1,2,3
+

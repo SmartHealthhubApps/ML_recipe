@@ -1,0 +1,29 @@
+DeprecationWarning: 'source deactivate' is deprecated. Use 'conda deactivate'.
+Traceback (most recent call last):
+  File "/home/aamotyakin/.conda/envs/yolov8_new/lib/python3.12/site-packages/ultralytics/engine/trainer.py", line 527, in get_dataset
+    data = check_det_dataset(self.args.data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aamotyakin/.conda/envs/yolov8_new/lib/python3.12/site-packages/ultralytics/data/utils.py", line 329, in check_det_dataset
+    raise FileNotFoundError(m)
+FileNotFoundError: 
+Dataset '/home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/TRAIN.yaml' images not found ⚠️, missing path '/content/extracted_data/Dataset_wo_lime_broc_peas_spin_copy/val/images'
+Note dataset download directory is '/home/aamotyakin/datasets'. You can update this in '/home/aamotyakin/.config/Ultralytics/settings.yaml'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/aamotyakin/yolo.py", line 36, in <module>
+    train()
+  File "/home/aamotyakin/yolo.py", line 26, in train
+    model.train(data=dataset_path,
+  File "/home/aamotyakin/.conda/envs/yolov8_new/lib/python3.12/site-packages/ultralytics/engine/model.py", line 644, in train
+    self.trainer = (trainer or self._smart_load("trainer"))(overrides=args, _callbacks=self.callbacks)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aamotyakin/.conda/envs/yolov8_new/lib/python3.12/site-packages/ultralytics/engine/trainer.py", line 132, in __init__
+    self.trainset, self.testset = self.get_dataset()
+                                  ^^^^^^^^^^^^^^^^^^
+  File "/home/aamotyakin/.conda/envs/yolov8_new/lib/python3.12/site-packages/ultralytics/engine/trainer.py", line 531, in get_dataset
+    raise RuntimeError(emojis(f"Dataset '{clean_url(self.args.data)}' error ❌ {e}")) from e
+RuntimeError: Dataset '/home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/TRAIN.yaml' error ❌ 
+Dataset '/home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/TRAIN.yaml' images not found ⚠️, missing path '/content/extracted_data/Dataset_wo_lime_broc_peas_spin_copy/val/images'
+Note dataset download directory is '/home/aamotyakin/datasets'. You can update this in '/home/aamotyakin/.config/Ultralytics/settings.yaml'

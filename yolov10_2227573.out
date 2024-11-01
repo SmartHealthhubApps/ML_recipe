@@ -1,0 +1,86 @@
+True
+Ultralytics YOLOv8.2.54 🚀 Python-3.12.4 torch-2.3.1 CUDA:0 (Tesla V100-SXM2-32GB, 32501MiB)
+                                                     CUDA:1 (Tesla V100-SXM2-32GB, 32501MiB)
+                                                     CUDA:2 (Tesla V100-SXM2-32GB, 32501MiB)
+                                                     CUDA:3 (Tesla V100-SXM2-32GB, 32501MiB)
+[34m[1mengine/trainer: [0mtask=detect, mode=train, model=/home/aamotyakin/yolov10x.pt, data=/home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/TRAIN.yaml, epochs=200, time=None, patience=100, batch=64, imgsz=1280, save=True, save_period=-1, cache=False, device=[0, 1, 2, 3], workers=8, project=None, name=yolov10_transfer_learning4, exist_ok=False, pretrained=True, optimizer=auto, verbose=True, seed=0, deterministic=True, single_cls=False, rect=False, cos_lr=False, close_mosaic=10, resume=False, amp=True, fraction=1.0, profile=False, freeze=None, multi_scale=False, overlap_mask=True, mask_ratio=4, dropout=0.0, val=True, split=val, save_json=False, save_hybrid=False, conf=None, iou=0.7, max_det=300, half=False, dnn=False, plots=True, source=None, vid_stride=1, stream_buffer=False, visualize=False, augment=False, agnostic_nms=False, classes=None, retina_masks=False, embed=None, show=False, save_frames=False, save_txt=False, save_conf=False, save_crop=False, show_labels=True, show_conf=True, show_boxes=True, line_width=None, format=torchscript, keras=False, optimize=False, int8=False, dynamic=False, simplify=False, opset=None, workspace=4, nms=False, lr0=0.01, lrf=0.01, momentum=0.937, weight_decay=0.0005, warmup_epochs=3.0, warmup_momentum=0.8, warmup_bias_lr=0.1, box=7.5, cls=0.5, dfl=1.5, pose=12.0, kobj=1.0, label_smoothing=0.0, nbs=64, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, degrees=0.0, translate=0.1, scale=0.5, shear=0.0, perspective=0.0, flipud=0.0, fliplr=0.5, bgr=0.0, mosaic=1.0, mixup=0.0, copy_paste=0.0, auto_augment=randaugment, erasing=0.4, crop_fraction=1.0, cfg=None, tracker=botsort.yaml, save_dir=runs/detect/yolov10_transfer_learning4
+Overriding model.yaml nc=80 with nc=54
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1      2320  ultralytics.nn.modules.conv.Conv             [3, 80, 3, 2]                 
+  1                  -1  1    115520  ultralytics.nn.modules.conv.Conv             [80, 160, 3, 2]               
+  2                  -1  3    436800  ultralytics.nn.modules.block.C2f             [160, 160, 3, True]           
+  3                  -1  1    461440  ultralytics.nn.modules.conv.Conv             [160, 320, 3, 2]              
+  4                  -1  6   3281920  ultralytics.nn.modules.block.C2f             [320, 320, 6, True]           
+  5                  -1  1    213120  ultralytics.nn.modules.block.SCDown          [320, 640, 3, 2]              
+  6                  -1  6   4604160  ultralytics.nn.modules.block.C2fCIB          [640, 640, 6, True]           
+  7                  -1  1    417920  ultralytics.nn.modules.block.SCDown          [640, 640, 3, 2]              
+  8                  -1  3   2712960  ultralytics.nn.modules.block.C2fCIB          [640, 640, 3, True]           
+  9                  -1  1   1025920  ultralytics.nn.modules.block.SPPF            [640, 640, 5]                 
+ 10                  -1  1   1545920  ultralytics.nn.modules.block.PSA             [640, 640]                    
+ 11                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 12             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 13                  -1  3   3122560  ultralytics.nn.modules.block.C2fCIB          [1280, 640, 3, True]          
+ 14                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 15             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 16                  -1  3   1948800  ultralytics.nn.modules.block.C2f             [960, 320, 3]                 
+ 17                  -1  1    922240  ultralytics.nn.modules.conv.Conv             [320, 320, 3, 2]              
+ 18            [-1, 13]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 19                  -1  3   2917760  ultralytics.nn.modules.block.C2fCIB          [960, 640, 3, True]           
+ 20                  -1  1    417920  ultralytics.nn.modules.block.SCDown          [640, 640, 3, 2]              
+ 21            [-1, 10]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 22                  -1  3   3122560  ultralytics.nn.modules.block.C2fCIB          [1280, 640, 3, True]          
+ 23        [16, 19, 22]  1   4489044  ultralytics.nn.modules.head.v10Detect        [54, [320, 640, 640]]         
+YOLOv10x summary: 688 layers, 31758884 parameters, 31758868 gradients
+
+Transferred 1123/1135 items from pretrained weights
+[34m[1mDDP:[0m debug command /home/aamotyakin/.conda/envs/yolov8_new/bin/python -m torch.distributed.run --nproc_per_node 4 --master_port 34900 /home/aamotyakin/.config/Ultralytics/DDP/_temp_d4mtc6gz140024848611136.py
+Ultralytics YOLOv8.2.54 🚀 Python-3.12.4 torch-2.3.1 CUDA:0 (Tesla V100-SXM2-32GB, 32501MiB)
+                                                     CUDA:1 (Tesla V100-SXM2-32GB, 32501MiB)
+                                                     CUDA:2 (Tesla V100-SXM2-32GB, 32501MiB)
+                                                     CUDA:3 (Tesla V100-SXM2-32GB, 32501MiB)
+Overriding model.yaml nc=80 with nc=54
+Transferred 1123/1135 items from pretrained weights
+Freezing layer 'model.23.dfl.conv.weight'
+[34m[1mAMP: [0mrunning Automatic Mixed Precision (AMP) checks with YOLOv8n...
+Downloading https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt to 'yolov8n.pt'...
+[34m[1mAMP: [0mchecks skipped ⚠️, offline and unable to download YOLOv8n. Setting 'amp=True'. If you experience zero-mAP or NaN losses you can disable AMP with amp=False.
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/1643898882980_jpg.rf.31746f4dcde9629f2dce7f7f35a49b8d.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/1643898882980_jpg.rf.ef9c1f67dc842ae33b9e68e71f4cce35.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/1643900395476_jpg.rf.524b539f4fd736383d70e9f37a837014.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/1d475085ea3bc219.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/1d475085ea3bc219_jpg.rf.8701e49776af0545f801add94ea7e8f0.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/264937d6cafb8679_jpg.rf.47206cdb9aecda0f70eccba49631d75f.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/2c8193947e475278_jpg.rf.a2d565f61b5e996a24667a25ed6158df.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/37b52505f9865f99.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/37b52505f9865f99_jpg.rf.5a52d4e4a47814b14092202fd72c67bc.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/38fe542b4330d7f8_jpg.rf.e119cec02796e56a0ca1960caa7aa385.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/3d8be4f881b8c54c.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/3d8be4f881b8c54c_jpg.rf.a9fae03c54701fb1d7fc90e5fa03179a.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/4a9f03277b0f9f8a.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/4a9f03277b0f9f8a_jpg.rf.56c9c1700f4d35784d6a5f8bf0ab472e.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/81c2f1ba005b3607_jpg.rf.d461d71b7b044818271c26e449831248.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/97275cca7be6692a.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/97275cca7be6692a_jpg.rf.09150fcbf548e1a6ff34594693187253.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/adc1a4d5e2ce4c8d_jpg.rf.59b2d54dc209cb1be4cd05957cddd708.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/ce65f77bc5abd893.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/ce65f77bc5abd893_jpg.rf.459294e8580c2a75750098d22c316ad9.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/images/fd975afc5fad69e8_jpg.rf.19540e02914704403b45df0453de81b7.jpg: 1 duplicate labels removed
+[34m[1mtrain: [0mNew cache created: /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/train/labels.cache
+WARNING ⚠️ Box and segment counts should be equal, but got len(segments) = 29252, len(boxes) = 263046. To resolve this only boxes will be used and all segments will be removed. To avoid this please supply either a detect or segment dataset, not a detect-segment mixed dataset.
+[34m[1malbumentations: [0mBlur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01), CLAHE(p=0.01, clip_limit=(1, 4.0), tile_grid_size=(8, 8))
+[34m[1mval: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/val/images/15f908c12e4954ac.jpg: 1 duplicate labels removed
+[34m[1mval: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/val/images/3d3ddc3054b32eb7.jpg: 1 duplicate labels removed
+[34m[1mval: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/val/images/3d3ddc3054b32eb7_jpg.rf.9e61d3ba121c94cf48f14efcc9c10d23.jpg: 1 duplicate labels removed
+[34m[1mval: [0mWARNING ⚠️ /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/val/images/81c2f1ba005b3607.jpg: 1 duplicate labels removed
+[34m[1mval: [0mNew cache created: /home/aamotyakin/Dataset_wo_lime_broc_peas_spin_copy/val/labels.cache
+WARNING ⚠️ Box and segment counts should be equal, but got len(segments) = 6857, len(boxes) = 65518. To resolve this only boxes will be used and all segments will be removed. To avoid this please supply either a detect or segment dataset, not a detect-segment mixed dataset.
+Plotting labels to runs/detect/yolov10_transfer_learning4/labels.jpg... 
+[34m[1moptimizer:[0m 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically... 
+[34m[1moptimizer:[0m SGD(lr=0.01, momentum=0.9) with parameter groups 185 weight(decay=0.0), 198 weight(decay=0.0005), 197 bias(decay=0.0)
+Image sizes 1280 train, 1280 val
+Using 32 dataloader workers
+Logging results to [1mruns/detect/yolov10_transfer_learning4[0m
+Starting training for 200 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
